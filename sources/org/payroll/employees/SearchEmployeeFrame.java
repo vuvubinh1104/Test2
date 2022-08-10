@@ -80,7 +80,8 @@ public class SearchEmployeeFrame extends JFrame{
                                 "Found Employee",
                                 JOptionPane.INFORMATION_MESSAGE
                                 );
-                                dispose();        
+                                dispose();
+			    	return;
                     } 
                 } catch (NumberFormatException e1) {
 					System.err.println(e1.getMessage());
@@ -143,7 +144,8 @@ public class SearchEmployeeFrame extends JFrame{
                                         "Found Employee",
                                         JOptionPane.INFORMATION_MESSAGE
                                         );
-                                        dispose();      
+                                        dispose();
+					return;
                                     }
                                 }
                         } else {
@@ -154,6 +156,7 @@ public class SearchEmployeeFrame extends JFrame{
                             JOptionPane.INFORMATION_MESSAGE
                             );
                             dispose();
+			    return;
                         }
                     }
                     
@@ -187,7 +190,8 @@ public class SearchEmployeeFrame extends JFrame{
                             "Found Employee",
                             JOptionPane.INFORMATION_MESSAGE
                             );
-                            dispose();      
+                            dispose();
+			    return;
                         }
                     }
                 }
