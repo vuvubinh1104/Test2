@@ -60,7 +60,8 @@ public class SearchEmployeeFrame extends JFrame{
                 try {
                     String s1 = txt_fn.getText(), s2 = txt_ln.getText();
                     int s3 = Integer.parseInt(txt_id.getText());
-                    if (checkTF(s1) && checkTF(s2) && checkTF(s3+"")) { // Check if text field has nothing
+
+                    if (checkTF(s1) && checkTF(s2) && checkTF(s3+"")) { // Check if all the text field have nothing, if so we return
                         JOptionPane.showMessageDialog(
                         null,
                         "Enter at least one field !!!",
@@ -68,6 +69,7 @@ public class SearchEmployeeFrame extends JFrame{
                         JOptionPane.ERROR_MESSAGE
                     );return;}
                     
+                    // Next check if we have a specific id, if so we return employee information base on id
                     if (!checkTF(s3+"")) {
                         JOptionPane.showMessageDialog(
                                 null,
@@ -80,16 +82,18 @@ public class SearchEmployeeFrame extends JFrame{
                                 "Found Employee",
                                 JOptionPane.INFORMATION_MESSAGE
                                 );
-                                dispose();
-			    	return;
+                                dispose();        
                     } 
-                } catch (NumberFormatException e1) {
+                } catch (Exception e1) {
 					System.err.println(e1.getMessage());
 				} finally {
+                    // if there are no id or there were problem with id this is executed
+
                     String s1 = txt_fn.getText(), s2 = txt_ln.getText();
                     ArrayList<String[]> employees = new ArrayList<>();
                     String s = "";
 
+                    // if the fisrt text field has something
                     if (!checkTF(s1)) {
                         for (int i=0;i<data.size();i++) {
                             if (s1.equals(data.get(i)[1])) employees.add(new String[] {data.get(i)[0], data.get(i)[1], data.get(i)[2], data.get(i)[3], data.get(i)[4], data.get(i)[5]});
@@ -104,8 +108,9 @@ public class SearchEmployeeFrame extends JFrame{
                             + "\nSalary: " + employees.get(i)[5] + "\n";
                         }
 
+                        // if no first name is found
                         if (employees.size() == 0) {
-                                if (checkTF(s2)) {
+                                if (checkTF(s2)) { // if second textfield also has nothing we return
                                     JOptionPane.showMessageDialog(
                                         null,
                                         "Not found!",
@@ -114,7 +119,8 @@ public class SearchEmployeeFrame extends JFrame{
                                         new ImageIcon("img/XD.png")
                                         );
                                     return;
-                                } else {
+                                } else { // if second textfield has something, we check last name
+                                    
                                     for (int i=0;i<data.size();i++) {
                                         if (s2.equals(data.get(i)[2])) employees.add(new String[] {data.get(i)[0], data.get(i)[1], data.get(i)[2], data.get(i)[3], data.get(i)[4], data.get(i)[5]});
                                     }
@@ -128,7 +134,7 @@ public class SearchEmployeeFrame extends JFrame{
                                         + "\nSalary: " + employees.get(i)[5] + "\n";
                                     }
 
-                                    if (employees.size() == 0) {
+                                    if (employees.size() == 0) { // if last name is also wrong we return
                                         JOptionPane.showMessageDialog(
                                         null,
                                         "Not found!",
@@ -137,7 +143,7 @@ public class SearchEmployeeFrame extends JFrame{
                                         new ImageIcon("img/XD.png")
                                         );
                                         return;
-                                    } else {
+                                    } else { // if last name is legit we return information base on last name
                                         JOptionPane.showMessageDialog(
                                         null,
                                         s,
@@ -145,21 +151,63 @@ public class SearchEmployeeFrame extends JFrame{
                                         JOptionPane.INFORMATION_MESSAGE
                                         );
                                         dispose();
-					return;
+                                        return;      
                                     }
                                 }
                         } else {
-                            JOptionPane.showMessageDialog(
-                            null,
-                            s,
-                            "Found Employee",
-                            JOptionPane.INFORMATION_MESSAGE
-                            );
-                            dispose();
-			    return;
+                            if (!checkTF(s2)) { // if firstname is found and second textfield has something, we check last name
+
+                                String[] s3 = {};
+                                for (int i=0;i<employees.size();i++) {
+                                    if (s2.equals(employees.get(i)[2])) {
+                                        s3 = new String[] {employees.get(i)[0], employees.get(i)[1], employees.get(i)[2], employees.get(i)[3], employees.get(i)[4], employees.get(i)[5]};
+                                    }
+                                }
+
+                                if (s3.length != 0) { // if lastname is also found we return information base on both first and last name
+
+                                    JOptionPane.showMessageDialog(
+                                    null,
+                                    "ID: " + s3[0]
+                                    +"\nFirst Name: " + s3[1] 
+                                    + "\nLast Name: " + s3[2]
+                                    + "\nEmail: " + s3[3]
+                                    + "\nDepartment: " + s3[4]
+                                    + "\nSalary: " + s3[5] + "\n",
+                                    "Found Employee a",
+                                    JOptionPane.INFORMATION_MESSAGE
+                                    );
+                                    dispose();
+                                    return;
+
+                                } else { // if not we return information base on first name
+
+                                    JOptionPane.showMessageDialog(
+                                    null,
+                                    s,
+                                    "Found Employee a",
+                                    JOptionPane.INFORMATION_MESSAGE
+                                    );
+                                    dispose();
+                                    return;
+
+                                }
+                            } else { // if firstname is found and second textfield has nothing
+
+                                JOptionPane.showMessageDialog(
+                                null,
+                                s,
+                                "Found Employee a",
+                                JOptionPane.INFORMATION_MESSAGE
+                                );
+                                dispose();
+                                return;
+                                
+                            }
                         }
                     }
                     
+                    // if first textfield has nothing, we check second textfield
                     if (!checkTF(s2)) {
                         for (int i=0;i<data.size();i++) {
                             if (s2.equals(data.get(i)[2])) employees.add(new String[] {data.get(i)[0], data.get(i)[1], data.get(i)[2], data.get(i)[3], data.get(i)[4], data.get(i)[5]});
@@ -190,8 +238,8 @@ public class SearchEmployeeFrame extends JFrame{
                             "Found Employee",
                             JOptionPane.INFORMATION_MESSAGE
                             );
-                            dispose();
-			    return;
+                            dispose();      
+                            return;
                         }
                     }
                 }
